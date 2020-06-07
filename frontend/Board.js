@@ -8,7 +8,7 @@ let roomId;
 class Board extends Component {
   
   handleCanvas() {
-    const socket = openSocket('http://localhost:8080');
+    const socket = openSocket('http://localhost:3000');
     socket.emit('message', { message: 'hi' });
     let canvas,
       ctx,

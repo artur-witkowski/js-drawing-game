@@ -3,7 +3,7 @@ module.exports = (io) => {
         console.log('Client connected');
       
         socket.on('lineTo', data => {
-          console.log(`${counter++}. ${data.x}, ${data.y} - ${data.color}`);
+          console.log(`${data.x}, ${data.y} - ${data.color}`);
         });
     });
 }
