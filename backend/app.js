@@ -20,7 +20,6 @@ const io = require('./socket').init(server);
 io.on('connect', socket => {
     let counter = 0;
     console.log('Client connected');
-    
     socket.on('lineTo', data => {
         console.log(`${counter++}. ${data.x}, ${data.y} - ${data.color}`);
     })
