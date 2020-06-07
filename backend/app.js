@@ -1,10 +1,8 @@
 const express = require('express');
 
-const drawingRoutes = require('./routes/drawing');
+const drawingSocket = require('./drawing');
 
 const app = express();
-
-app.use('/drawing', drawingRoutes);
 
 // ERROR HANDLER
 app.use((error, req, res, next) => {
@@ -17,10 +15,5 @@ app.use((error, req, res, next) => {
 
 const server = app.listen(8080);
 const io = require('./socket').init(server);
-io.on('connect', socket => {
-    let counter = 0;
-    console.log('Client connected');
-    socket.on('lineTo', data => {
-        console.log(`${counter++}. ${data.x}, ${data.y} - ${data.color}`);
-    })
-})
+require('./drawing')(io);
+
