@@ -6,6 +6,3 @@ exports.getNewRoom = (req, res, next) => {
     return res.render('index/new-room');
 }
 
-exports.getRoom = (req, res, next) => {
-    return res.render('game/room');
-}

@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 
 const secret = require('./secret');
 const indexRoutes = require('./routes/index');
+const roomRoutes = require('./routes/room');
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.set('views', 'views');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(indexRoutes);
+app.use(roomRoutes);
 
 // ERROR HANDLER
 app.use((error, req, res, next) => {
