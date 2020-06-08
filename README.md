@@ -18,7 +18,7 @@ Simple web round based game where your job is to draw a word or a phrase and oth
 * [socket.io](https://socket.io/)
 * [MongoDB](https://www.mongodb.com/) + [Mongoose](https://mongoosejs.com/)
 
-### Installation
+## Installation
 
 1. Clone the repo
 ```sh
@@ -33,7 +33,7 @@ npm install
 exports.mongodbURI = "here"
 ```
 
-### Usage 
+## Usage 
 
 1. Run the app
 ```JS
