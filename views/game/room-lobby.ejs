@@ -1,5 +1,31 @@
-<h1>Your room</h1>
-<input type="text" size="65" value="<%= roomUrl %>">
-
-<hr>
-<a href="/">Back</a>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your room</title>
+  </head>
+  <body>
+    <h1>Your room</h1>
+    Share with friends: <input type="text" size="65" readonly value="<%= roomUrl %>" />
+    <hr />
+    Your name: <input type="text" size="65" value="example" />
+    <hr />
+    <div>
+      <h2>Game settings</h2>
+      <p>Category:</p>
+      <p>Time:</p>
+    </div>
+    <hr />
+    <div>
+      <h2>Players</h2>
+      <ol>
+        <li>example</li>
+      </ol>
+    </div>
+    <hr />
+    <a href="<%= roomUrl %>/start"><h2>Start</h2></a>
+    <hr />
+    <a href="/">Back</a>
+  </body>
+</html>

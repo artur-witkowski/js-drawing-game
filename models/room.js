@@ -13,7 +13,6 @@ const roomSchema = new Schema({
     required: true
   },
   gameCategory: String,
-  roomPassword: String,
   roundTime: Number,
   players: [
     {
