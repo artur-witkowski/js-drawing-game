@@ -18,8 +18,14 @@ const roomSchema = new Schema({
   players: [
     {
       name: String,
-      points: Number,
-      guessed: Boolean,
+      points: {
+        type: Number,
+        default: 0
+      },
+      guessed: {
+        type: Boolean,
+        default: false,
+      },
       role: {
         type: String,
         default: 'user'
@@ -37,8 +43,7 @@ const roomSchema = new Schema({
         color: String,
         size: Number
       }
-    ],
-    moveCount: Number
+    ]
   },
 });
 
