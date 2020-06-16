@@ -6,6 +6,12 @@ exports.postCreateRoom = (req, res, next) => {
   const newRoomId = uuid();
   const newRoom = new Room({
     roomId: newRoomId,
+    players: [
+      {
+        name: 'Room Admin',
+        role: 'admin',
+      }
+    ]
   });
   newRoom.save().then(() => {
     res.redirect(`/room-lobby/${newRoomId}`)
