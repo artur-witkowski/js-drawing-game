@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { ObjectID } = require('bson');
 
 const Schema = mongoose.Schema;
 
@@ -14,6 +15,8 @@ const roomSchema = new Schema({
   },
   gameCategory: String,
   roundTime: Number,
+  roundLimit: Number,
+  drawingPlayerId: ObjectID,
   players: [
     {
       name: String,

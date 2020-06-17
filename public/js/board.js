@@ -1,5 +1,7 @@
 const socket = io('http://localhost:3000');
 
+
+
 let canvas,
   ctx,
   flag = false,
@@ -11,8 +13,8 @@ let canvas,
 // w,
 // h;
 
-let x = 'black',
-  y = 2;
+let currColor = 'black',
+  currSize = 2;
 
 function init() {
   canvas = document.getElementById('myCanvas');
@@ -53,40 +55,40 @@ function init() {
 function color(obj) {
   switch (obj.id) {
     case 'green':
-      x = 'green';
+      currColor = 'green';
       break;
     case 'blue':
-      x = 'blue';
+      currColor = 'blue';
       break;
     case 'red':
-      x = 'red';
+      currColor = 'red';
       break;
     case 'yellow':
-      x = 'yellow';
+      currColor = 'yellow';
       break;
     case 'orange':
-      x = 'orange';
+      currColor = 'orange';
       break;
     case 'black':
-      x = 'black';
+      currColor = 'black';
       break;
     case 'white':
-      x = 'white';
+      currColor = 'white';
       break;
     default:
-      x = 'black';
+      currColor = 'black';
       break;
   }
-  if (x === 'white') y = 14;
-  else y = 2;
+  if (currColor === 'white') currSize = 14;
+  else currSize = 2;
 }
 
 function draw() {
   ctx.beginPath();
   ctx.moveTo(prevX, prevY);
   ctx.lineTo(currX, currY);
-  ctx.strokeStyle = x;
-  ctx.lineWidth = y;
+  ctx.strokeStyle = currColor;
+  ctx.lineWidth = currSize;
   ctx.stroke();
   ctx.closePath();
 }
@@ -117,7 +119,16 @@ function findxy(res, e) {
       prevY = currY;
       currX = e.clientX - canvas.offsetLeft;
       currY = e.clientY - canvas.offsetTop;
-      socket.emit('lineTo', { x: currX, y: currY, color: x });
+      socket.emit('newLine', {
+        roomId: roomId,
+        playerId: playerId,
+        xStart: prevX,
+        xEnd: currX,
+        yStart: prevY,
+        yEnd: currY,
+        color: currColor,
+        size: currSize
+      });
       draw();
     }
   }
@@ -125,3 +136,13 @@ function findxy(res, e) {
 
 init();
 color({ id: 'green' });
+socket.on('newLine', data => {
+  console.log(data.playerId);
+  ctx.beginPath();
+  ctx.moveTo(data.xStart, data.yStart);
+  ctx.lineTo(data.xEnd, data.yEnd);
+  ctx.strokeStyle = data.color;
+  ctx.lineWidth = data.size;
+  ctx.stroke();
+  ctx.closePath();
+})

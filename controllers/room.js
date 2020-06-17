@@ -13,6 +13,9 @@ exports.postCreateRoom = (req, res, next) => {
         role: 'admin',
       },
     ],
+    gameCategory: 'default',
+    roundTime: 60,
+    roundLimit: 3,
   });
   newRoom
     .save()
@@ -22,8 +25,9 @@ exports.postCreateRoom = (req, res, next) => {
       const io = require('../middleware/socket').getIO();
       io.on('connection', socket => {
         socket.join(newRoomId);
-
-        console.log(`Client connected and joined room='${newRoomId}'`);
+        console.log(
+          `Client '${socket.id}' connected and joined room='${newRoomId}'`
+        );
       });
 
       return res.redirect(`/room-lobby/${newRoomId}`);
@@ -154,6 +158,7 @@ exports.postStartGame = (req, res, next) => {
         playerInfo.role === 'admin'
       ) {
         room.gameState = 'game';
+        room.drawingPlayerId = room.players[0]._id;
         return room
           .save()
           .then(result => {
@@ -173,7 +178,19 @@ exports.postStartGame = (req, res, next) => {
 
 exports.getRoom = (req, res, next) => {
   const roomId = req.params.roomId;
-  return res.render('game/room', {
-    roomId: roomId,
-  });
+  const playerId = req.session.playerId;
+
+  Room.findOne({ roomId: roomId })
+    .then(room => {
+      if (room === null) {
+        return res.redirect('/');
+      }
+      return res.render('game/room', {
+        roomId: roomId,
+        playerId: playerId,
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
 };
