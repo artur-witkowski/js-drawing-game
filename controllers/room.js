@@ -13,7 +13,8 @@ exports.postCreateRoom = (req, res, next) => {
       }
     ]
   });
-  newRoom.save().then(() => {
+  newRoom.save().then(room => {
+    req.session.playerId = room.players[0]._id.toString();
     res.redirect(`/room-lobby/${newRoomId}`)
   }).catch(err => {
     console.log(err);
@@ -22,6 +23,7 @@ exports.postCreateRoom = (req, res, next) => {
 
 exports.getRoomLobby = (req, res, next) => {
   const roomId = req.params.roomId;
+  // console.log(req.session)
   Room.findOne({ roomId: roomId }).then(room => {
     const newRoomUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
     if(room !== null) {
