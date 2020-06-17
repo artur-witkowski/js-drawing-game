@@ -11,6 +11,9 @@ router.post('/create-room', roomController.postCreateRoom);
 // GET /room-lobby/:roomId
 router.get('/room-lobby/:roomId', roomController.getRoomLobby);
 
+// POST /room-lobby/:roomId/changeName
+router.post('/room-lobby/:roomId/changeName', roomController.postChangeName);
+
 // GET /room/:roomId
 router.get('/room/:roomId', roomController.getRoom);
 

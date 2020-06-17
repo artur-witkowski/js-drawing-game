@@ -2,6 +2,7 @@ const path = require('path');
 
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const session = require('express-session');
 const mongoDBStore = require('connect-mongodb-session')(session);
 
@@ -18,6 +19,7 @@ const storeSession = new mongoDBStore({
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   session({
