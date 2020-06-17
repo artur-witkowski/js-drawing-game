@@ -22,14 +22,6 @@ exports.postCreateRoom = (req, res, next) => {
     .then(room => {
       req.session.playerId = room.players[0]._id.toString();
 
-      const io = require('../middleware/socket').getIO();
-      io.on('connection', socket => {
-        socket.join(newRoomId);
-        console.log(
-          `Client '${socket.id}' connected and joined room='${newRoomId}'`
-        );
-      });
-
       return res.redirect(`/room-lobby/${newRoomId}`);
     })
     .catch(err => {

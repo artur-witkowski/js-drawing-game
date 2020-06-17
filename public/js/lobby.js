@@ -1,5 +1,7 @@
 const socket = io('http://localhost:3000');
 
+socket.emit('joinRoom', { roomId: roomId });
+
 socket.on('playersChanges', data => {
     location.reload();
 })

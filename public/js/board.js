@@ -1,6 +1,6 @@
 const socket = io('http://localhost:3000');
 
-
+socket.emit('joinRoom', { roomId: roomId });
 
 let canvas,
   ctx,
@@ -137,7 +137,6 @@ function findxy(res, e) {
 init();
 color({ id: 'green' });
 socket.on('newLine', data => {
-  console.log(data.playerId);
   ctx.beginPath();
   ctx.moveTo(data.xStart, data.yStart);
   ctx.lineTo(data.xEnd, data.yEnd);
