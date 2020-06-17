@@ -1,4 +1,5 @@
 const { v4: uuid } = require('uuid');
+var hri = require('human-readable-ids').hri;
 
 const Room = require('../models/room');
 
@@ -54,7 +55,7 @@ exports.getRoomLobby = (req, res, next) => {
       // Create new player if there is no session OR player isn't in this room
       if (req.session.playerId === undefined || playerInfo === undefined) {
         const newPlayer = {
-          name: 'New Player',
+          name: hri.random(),
           role: 'user',
         };
         room.players.push(newPlayer);
@@ -66,7 +67,7 @@ exports.getRoomLobby = (req, res, next) => {
             player => player._id.toString() === req.session.playerId
           );
           const io = require('../middleware/socket').getIO();
-          io.to(roomId).emit('newPlayer');
+          io.to(roomId).emit('playersChanges');
 
           return res.render('game/room-lobby', {
             roomId: roomId,
@@ -116,6 +117,9 @@ exports.postChangeName = (req, res, next) => {
         return room
           .save()
           .then(result => {
+            const io = require('../middleware/socket').getIO();
+            io.to(roomId).emit('playersChanges');
+
             res.redirect(roomUrl);
           })
           .catch(err => {
@@ -140,12 +144,12 @@ exports.postStartGame = (req, res, next) => {
       }
 
       const playerInfo = room.players.find(
-        player => player._id.toString() === req.session.playerId
+        player => player._id.toString() === playerId
       );
 
       // Player exists and is admin
       if (
-        req.session.playerId !== undefined ||
+        playerId !== undefined ||
         playerInfo !== undefined ||
         playerInfo.role === 'admin'
       ) {
@@ -153,6 +157,8 @@ exports.postStartGame = (req, res, next) => {
         return room
           .save()
           .then(result => {
+            const io = require('../middleware/socket').getIO();
+            io.to(roomId).emit('newGameState', { gameState: 'game' });
             res.redirect(gameUrl);
           })
           .catch(err => {

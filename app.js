@@ -11,6 +11,8 @@ const indexRoutes = require('./routes/index');
 const roomRoutes = require('./routes/room');
 
 const app = express();
+const server = require('http').Server(app);
+
 const storeSession = new mongoDBStore({
   uri: secret.mongodbURI,
   collection: 'sessions'
@@ -48,8 +50,8 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(result => {
-    const server = app.listen(3000);
-    const io = require('./middleware/socket').init(server);
+    require('./middleware/socket').init(server);
+    server.listen(3000);
   })
   .catch(err => {
     console.log(err);

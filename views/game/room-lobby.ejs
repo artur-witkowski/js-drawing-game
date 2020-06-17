@@ -22,8 +22,6 @@
       <input type="submit" value="Update" />
     </form>
     <hr />
-    <%= player %>
-    <hr />
     <div>
       <h2>Game settings</h2>
       <p>Category:</p>
@@ -33,8 +31,12 @@
     <div>
       <h2>Players</h2>
       <ol>
-        <% players.forEach(player => { %>
-        <li><%= player.name %></li>
+        <% players.forEach(playerInfo => { %>
+          <% if (playerInfo._id.toString() === player._id.toString()) { %>
+            <li><b><%= playerInfo.name %></b></li>
+          <% } else { %>
+            <li><%= playerInfo.name %></li>
+          <% } %>
         <% }); %>
       </ol>
     </div>
