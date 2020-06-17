@@ -11,6 +11,8 @@
     <hr />
     Your name: <input type="text" size="65" value="example" />
     <hr />
+    <%= player %> 
+    <hr />
     <div>
       <h2>Game settings</h2>
       <p>Category:</p>
@@ -20,7 +22,10 @@
     <div>
       <h2>Players</h2>
       <ol>
-        <li>example</li>
+        <% players.forEach(player => { %>
+            <li><%= player.name %></li>  
+        <% }); %> 
+        
       </ol>
     </div>
     <hr />
