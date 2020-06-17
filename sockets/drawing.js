@@ -8,8 +8,22 @@ module.exports = () => {
       console.log(
         `Client '${socket.id}' connected and joined room='${data.roomId}'`
       );
+      Room.findOne({ roomId: data.roomId })
+        .then(room => {
+          socket.emit('gameInfo', {
+            gameCategory: room.gameCategory,
+            roundTime: room.roundTime,
+            roundLimit: room.roundLimit,
+            drawingPlayerId: room.drawingPlayerId,
+            guessPhrase: room.guessPhrase,
+            players: room.players,
+          });
+        })
+        .catch(err => {
+          console.log(err);
+        });
       socket.join(data.roomId);
-    })
+    });
 
     socket.on('newLine', data => {
       console.log(`${data.xStart}, ${data.yStart} - ${data.color}`);

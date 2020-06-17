@@ -2,6 +2,19 @@ const socket = io('http://localhost:3000');
 
 socket.emit('joinRoom', { roomId: roomId });
 
+let gameCategory, roundTime, roundLimit, drawingPlayerId, guessPhrase, players = [], player;
+
+socket.on('gameInfo', data => {
+  gameCategory = data.gameCategory;
+  roundTime = data.roundTime;
+  roundLimit = data.roundLimit;
+  drawingPlayerId = data.drawingPlayerId;
+  guessPhrase = data.guessPhrase;
+  players = data.players;
+  player = players.find(playerInfo => playerInfo._id === playerId);
+  console.log(players);
+});
+
 let canvas,
   ctx,
   flag = false,
@@ -94,6 +107,11 @@ function draw() {
 }
 
 function findxy(res, e) {
+  if (player === undefined || player._id !== drawingPlayerId) {
+    return;
+  }
+
+
   if (res === 'down') {
     prevX = currX;
     prevY = currY;
@@ -127,7 +145,7 @@ function findxy(res, e) {
         yStart: prevY,
         yEnd: currY,
         color: currColor,
-        size: currSize
+        size: currSize,
       });
       draw();
     }
@@ -144,4 +162,4 @@ socket.on('newLine', data => {
   ctx.lineWidth = data.size;
   ctx.stroke();
   ctx.closePath();
-})
+});
