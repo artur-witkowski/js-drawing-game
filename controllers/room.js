@@ -34,6 +34,10 @@ exports.getRoomLobby = (req, res, next) => {
     .then(room => {
       if (room === null) {
         return res.redirect('/');
+      } else if (room.gameState === 'game') {
+        return res.redirect(
+          `${req.protocol}://${req.get('host')}/room/${roomId}`
+        );
       }
       const playerInfo = room.players.find(
         player => player._id.toString() === req.session.playerId
@@ -96,12 +100,51 @@ exports.postChangeName = (req, res, next) => {
             player = playerInfo;
           }
         });
-        console.log(room.players)
-        return room.save().then(result => {
-          res.redirect(roomUrl);
-        }).catch(err => {
-          console.log(err);
-        })
+        return room
+          .save()
+          .then(result => {
+            res.redirect(roomUrl);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+exports.postStartGame = (req, res, next) => {
+  const roomId = req.params.roomId;
+  const playerId = req.session.playerId;
+  const gameUrl = `${req.protocol}://${req.get('host')}/room/${roomId}`;
+
+  Room.findOne({ roomId: roomId })
+    .then(room => {
+      if (room === null) {
+        return res.redirect('/');
+      }
+
+      const playerInfo = room.players.find(
+        player => player._id.toString() === req.session.playerId
+      );
+
+      // Player exists and is admin
+      if (
+        req.session.playerId !== undefined ||
+        playerInfo !== undefined ||
+        playerInfo.role === 'admin'
+      ) {
+        room.gameState = 'game';
+        return room
+          .save()
+          .then(result => {
+            res.redirect(gameUrl);
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
     })
     .catch(err => {

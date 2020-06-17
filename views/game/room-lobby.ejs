@@ -39,7 +39,13 @@
       </ol>
     </div>
     <hr />
-    <a href="<%= roomUrl %>/start"><h2>Start</h2></a>
+    <% if (player.role !== 'admin') { %>
+      <form action="<%= roomUrl %>/start" method="post">
+        <input type="submit" value="Start" />
+      </form>
+    <% } else { %>
+      <h2>Waiting to start...</h2>
+    <% } %>
     <hr />
     <a href="/">Back</a>
   </body>
