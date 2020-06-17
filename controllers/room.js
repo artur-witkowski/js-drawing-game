@@ -26,7 +26,8 @@ exports.postCreateRoom = (req, res, next) => {
 
 exports.getRoomLobby = (req, res, next) => {
   const roomId = req.params.roomId;
-  const newRoomUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+  const newRoomUrl = `${req.protocol}://${req.get('host')}/room-lobby/${roomId}`;
+
   Room.findOne({ roomId: roomId })
     .then(room => {
       if (room === null) {
@@ -57,7 +58,6 @@ exports.getRoomLobby = (req, res, next) => {
               });
             });
       } else {
-        
         return res.render('game/room-lobby', {
           roomUrl: newRoomUrl,
           player: playerInfo,
@@ -65,7 +65,6 @@ exports.getRoomLobby = (req, res, next) => {
         });
       }
     })
-    .then(room => {})
     .catch(err => {
       console.log(err);
     });
