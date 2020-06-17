@@ -39,7 +39,7 @@
       </ol>
     </div>
     <hr />
-    <% if (player.role !== 'admin') { %>
+    <% if (player.role === 'admin') { %>
       <form action="<%= roomUrl %>/start" method="post">
         <input type="submit" value="Start" />
       </form>
@@ -48,5 +48,10 @@
     <% } %>
     <hr />
     <a href="/">Back</a>
+    <script src="/js/socket.io.js"></script>
+    <script>
+      const roomId = '<%= roomId %>';
+    </script>
+    <script src="/js/lobby.js"></script>
   </body>
 </html>

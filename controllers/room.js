@@ -17,7 +17,15 @@ exports.postCreateRoom = (req, res, next) => {
     .save()
     .then(room => {
       req.session.playerId = room.players[0]._id.toString();
-      res.redirect(`/room-lobby/${newRoomId}`);
+
+      const io = require('../middleware/socket').getIO();
+      io.on('connection', socket => {
+        socket.join(newRoomId);
+
+        console.log(`Client connected and joined room='${newRoomId}'`);
+      });
+
+      return res.redirect(`/room-lobby/${newRoomId}`);
     })
     .catch(err => {
       console.log(err);
@@ -57,7 +65,11 @@ exports.getRoomLobby = (req, res, next) => {
           const newPlayerInfo = room.players.find(
             player => player._id.toString() === req.session.playerId
           );
+          const io = require('../middleware/socket').getIO();
+          io.to(roomId).emit('newPlayer');
+
           return res.render('game/room-lobby', {
+            roomId: roomId,
             roomUrl: newRoomUrl,
             player: newPlayerInfo,
             players: newRoom.players,
@@ -66,6 +78,7 @@ exports.getRoomLobby = (req, res, next) => {
       } else {
         // Player exists and we return info
         return res.render('game/room-lobby', {
+          roomId: roomId,
           roomUrl: newRoomUrl,
           player: playerInfo,
           players: room.players,

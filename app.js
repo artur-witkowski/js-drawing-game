@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   session({
-    secret: 'b163158e-0af5-4569-afe0-2eddcad2eb65',
+    secret: 'b163158e-0af5-4569-afe0-2eddcad2eb65', // not that secret
     resave: false,
     saveUninitialized: false,
     store: storeSession
@@ -50,7 +50,6 @@ mongoose
   .then(result => {
     const server = app.listen(3000);
     const io = require('./middleware/socket').init(server);
-    require('./sockets/drawing')(io);
   })
   .catch(err => {
     console.log(err);
