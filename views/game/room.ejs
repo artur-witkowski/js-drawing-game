@@ -7,10 +7,43 @@
     <link rel="stylesheet" href="/css/index.css" />
   </head>
   <body>
-    <% if(roomId) { %> <%= roomId %> <% } %>
     <div id="app">
-      <canvas width="800" height="600" id="myCanvas"></canvas>
+      <div id="canvasDiv">
+        <canvas width="1500" height="900" id="myCanvas"></canvas>
+        <div id="drawTools">
+          <div id="colors">
+            <div class="colorsRow">
+              <div class="color" style="background-color: black;"></div>
+              <div class="color" style="background-color: rgb(24, 0, 245);"></div>
+              <div class="color" style="background-color: rgb(199, 0, 0);"></div>
+              <div class="color" style="background-color: rgb(13, 187, 91);"></div>
+              <div class="color" style="background-color: rgb(215, 18, 233);"></div>
+              <div class="color" style="background-color: rgb(238, 223, 14);"></div>
+              <div class="color" style="background-color: rgb(230, 108, 9);"></div>
+              <div class="color" style="background-color: rgb(17, 132, 240);"></div>
+            </div>
+            <div class="colorsRow">
+              <div class="color" style="background-color: rgb(163, 163, 163);"></div>
+              <div class="color" style="background-color: rgb(105, 98, 172);"></div>
+              <div class="color" style="background-color: rgb(108, 167, 41);"></div>
+              <div class="color" style="background-color: rgb(36, 48, 102);"></div>
+              <div class="color" style="background-color: rgb(80, 167, 40);"></div>
+              <div class="color" style="background-color: rgb(143, 134, 8);"></div>
+              <div class="color" style="background-color: rgb(92, 32, 104);"></div>
+              <div class="color" style="background-color: rgb(88, 11, 11);"></div>
+            </div>
+          </div>
+          <div id="tools">
+            <div>f</div>
+            <div>g</div>
+            <div>d</div>
+            <div>a</div>
+          </div>
+        </div>
+      </div>
+      <div id="gameInfo">fff</div>
     </div>
+
     <script src="/js/socket.io.js"></script>
     <script>
       const roomId = '<%= roomId %>';

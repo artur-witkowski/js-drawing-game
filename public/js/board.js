@@ -29,6 +29,11 @@ let canvas,
 let currColor = 'black',
   currSize = 2;
 
+document.addEventListener('click', function (event) {
+  if (!event.target.matches('.color')) return;
+  currColor = event.target.style.backgroundColor;
+});
+
 function init() {
   canvas = document.getElementById('myCanvas');
   ctx = canvas.getContext('2d');
