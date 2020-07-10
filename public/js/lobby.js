@@ -4,7 +4,7 @@ socket.emit('joinRoom', { roomId: roomId });
 
 socket.on('playersChanges', data => {
     location.reload();
-})
+}) 
 
 socket.on('newGameState', data => {
     console.log(data);
