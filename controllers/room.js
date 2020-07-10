@@ -176,11 +176,45 @@ exports.getRoom = (req, res, next) => {
     .then(room => {
       if (room === null) {
         return res.redirect('/');
+      } else if (room.gameState === 'lobby') {
+        return res.redirect(
+          `${req.protocol}://${req.get('host')}/room-lobby/${roomId}`
+        );
       }
-      return res.render('game/room', {
-        roomId: roomId,
-        playerId: playerId,
-      });
+
+      const playerInfo = room.players.find(
+        player => player._id.toString() === req.session.playerId
+      );
+
+      // Create new player if there is no session OR player isn't in this room
+      if (req.session.playerId === undefined || playerInfo === undefined) {
+        const newPlayer = {
+          name: hri.random(),
+          role: 'user',
+        };
+        room.players.push(newPlayer);
+        return room.save().then(newRoom => {
+          req.session.playerId = newRoom.players[
+            newRoom.players.length - 1
+          ]._id.toString();
+          const newPlayerInfo = room.players.find(
+            player => player._id.toString() === req.session.playerId
+          );
+          const io = require('../middleware/socket').getIO();
+          io.to(roomId).emit('playersChanges');
+
+          return res.render('game/room', {
+            roomId: roomId,
+            playerId: newPlayerInfo._id,
+          });
+        });
+      } else {
+        // Player exists and we return info
+        return res.render('game/room', {
+          roomId: roomId,
+          playerId: playerId,
+        });
+      }
     })
     .catch(err => {
       console.log(err);
