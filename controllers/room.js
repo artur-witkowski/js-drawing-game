@@ -201,8 +201,9 @@ exports.getRoom = (req, res, next) => {
             player => player._id.toString() === req.session.playerId
           );
           const io = require('../middleware/socket').getIO();
-          io.to(roomId).emit('playersChanges');
-
+          io.to(roomId).emit('gameInfo', {
+            players: newRoom.players,
+          });
           return res.render('game/room', {
             roomId: roomId,
             playerId: newPlayerInfo._id,

@@ -5,22 +5,41 @@ socket.emit('joinRoom', { roomId: roomId });
 let gameCategory, roundTime, roundLimit, drawingPlayerId, guessPhrase, players = [], player;
 
 socket.on('gameInfo', data => {
-  gameCategory = data.gameCategory;
-  roundTime = data.roundTime;
-  roundLimit = data.roundLimit;
-  drawingPlayerId = data.drawingPlayerId;
-  guessPhrase = data.guessPhrase;
-  players = data.players;
-  player = players.find(playerInfo => playerInfo._id === playerId);
-  console.log(players);
+  if (data.gameCategory) gameCategory = data.gameCategory;
+  if (data.roundTime) roundTime = data.roundTime;
+  if (data.roundLimit) roundLimit = data.roundLimit;
+  if (data.drawingPlayerId) drawingPlayerId = data.drawingPlayerId;
+  if (data.guessPhrase) guessPhrase = data.guessPhrase;
+  if (data.players) {
+    players = data.players;
+    player = players.find(playerInfo => playerInfo._id === playerId);
+  }
+  
   let gamePlayersList = document.getElementById("gamePlayersList");
+  let newPlayers = "";
   players.forEach((pInfo, pIndex) => {
-    gamePlayersList.innerHTML += `<div class="playerInfo">
+     newPlayers += `<div class="playerInfo">
   <div class="playerInfoNick">${pIndex+1}. ${pInfo.name }</div>
   <div class="playerInfoScore">${pInfo.points}</div>
 </div>`;
   });
-  console.log(players);
+
+  gamePlayersList.innerHTML = newPlayers;
+});
+
+socket.on('playersChanges', data => {
+  if (players) {
+    let gamePlayersList = document.getElementById("gamePlayersList");
+    let newPlayers = "";
+    players.forEach((pInfo, pIndex) => {
+       newPlayers += `<div class="playerInfo">
+    <div class="playerInfoNick">${pIndex+1}. ${pInfo.name }</div>
+    <div class="playerInfoScore">${pInfo.points}</div>
+  </div>`;
+    });
+  
+    gamePlayersList.innerHTML = newPlayers;
+  }
 });
 
 let canvas,
