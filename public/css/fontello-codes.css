@@ -1,0 +1,6 @@
+
+.icon-cancel:before { content: '\e800'; } /* '' */
+.icon-trash:before { content: '\e801'; } /* '' */
+.icon-bucket:before { content: '\e802'; } /* '' */
+.icon-circle:before { content: '\f111'; } /* '' */
+.icon-bandcamp:before { content: '\f32b'; } /* '' */

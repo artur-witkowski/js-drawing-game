@@ -9,36 +9,50 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100%;
-  display: flex;
-  justify-content: center;
+  background-image: url("/img/background.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 #canvasDiv {
   margin: 0;
   padding: 0;
+  text-align: center;
+  padding-top: 100px;
 }
 
-#gameInfo {
-  margin: 0;
-  padding: 0;
-  flex-grow: 1;
-  background-color: orange;
+canvas {
+  border: 1px solid black;
+  display: inline-block;
 }
 
-#drawTools {
-  margin: 0;
-  padding: 0;
+/* COLORS AND TOOLS */
+
+#gameBottomHUDWrapper {
+  position: absolute;
+  left: 50%;
+  bottom: 0px;
+  cursor: pointer;
+}
+
+#gameBottomHUD {
+  position: relative;
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  left: -50%;
+  width: 800px;
   height: 100px;
-  background-color: darkkhaki;
+  border: 1px solid black;
 }
 
-#colors {
-  background-color: rgb(176, 155, 223);
+#gameColors {
+  width: 600px;
+  height: 100px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  width: 60%;
+  flex-grow: 2;
 }
 
 .colorsRow {
@@ -46,15 +60,225 @@ body {
   flex-grow: 1;
 }
 
-.colorsRow > div {
+.color {
   flex-grow: 1;
 }
 
-#tools {
+#gameTools {
+  width: 200px;
   display: flex;
-  width: 40%;
+  flex-direction: column;
+  flex-wrap: wrap;
+  flex-grow: 1;
 }
 
-canvas {
+.toolsRow {
+  display: flex;
+  flex-grow: 1;
+}
+
+.tool {
+  flex-grow: 1;
+  width: 98px;
+  background-color: white;
+  text-align: center;
+  font-size: 22px;
+  padding-top: 10px;
   border: 1px solid black;
+}
+
+/* PLAYERS */
+
+#gamePlayersWrapper {
+  position: absolute;
+  left: 0;
+  top: 100px;
+}
+
+#gamePlayers {
+  background-color: white;
+  position: relative;
+  width: 350px;
+  height: 800px;
+  border: 1px solid black;
+  border-left: 0;
+}
+
+#gamePlayersTitle {
+  background-color: rgb(176, 155, 223);
+  font-size: 44px;
+  font-family: Roboto;
+  text-align: center;
+  border-bottom: 1px solid black;
+  padding: 10px 0;
+}
+
+.playerInfo {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  line-height: 50px;
+  font-size: 30px;
+  height: 50px;
+  width: 350px;
+  border-bottom: 1px solid black;
+}
+
+.playerInfoNick {
+  padding-left: 10px;
+}
+
+.playerInfoScore {
+  width: 70px;
+  align-self: flex-end;
+}
+
+/* CHAT */
+
+#gameChatWrapper {
+  position: absolute;
+  right: 0;
+  top: 100px;
+}
+
+#gameChat {
+  background-color:white;
+  position: relative;
+  width: 350px;
+  height: 800px;
+  border: 1px solid black;
+  border-right: 0;
+}
+
+#gameChatTitle {
+  background-color: rgb(176, 155, 223);
+  font-family: Roboto;
+  font-size: 44px;
+  text-align: center;
+  border-bottom: 1px solid black;
+  padding: 10px 0;
+}
+
+/* PHRASE */
+
+#gamePhraseWrapper {
+  position: absolute;
+  left: 50%;
+  top: 0;
+}
+
+#gamePhrase {
+  background-color: rgb(176, 155, 223);
+  position: relative;
+  left: -50%;
+  width: 800px;
+  height: 70px;
+  text-align: center;
+}
+ 
+#gamePhraseText {
+  font-size: 40px;
+  width: auto;
+  min-height: 70px;
+  padding-top: 10px;
+}
+
+/* ICONS */
+
+@font-face {
+  font-family: 'fontello';
+  src: url('../font/fontello.eot?80383089');
+  src: url('../font/fontello.eot?80383089#iefix') format('embedded-opentype'),
+       url('../font/fontello.woff2?80383089') format('woff2'),
+       url('../font/fontello.woff?80383089') format('woff'),
+       url('../font/fontello.ttf?80383089') format('truetype'),
+       url('../font/fontello.svg?80383089#fontello') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'fontello';
+    src: url('../font/fontello.svg?80383089#fontello') format('svg');
+  }
+}
+*/
+ 
+ [class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "fontello";
+  font-style: normal;
+  font-weight: normal;
+  speak: never;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+ 
+  /* fix buttons height, for twitter bootstrap */
+
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+ 
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+ 
+.icon-trash:before { content: '\e801'; } /* '' */
+.icon-bucket:before { content: '\e802'; } /* '' */
+.icon-circle:before { content: '\f111'; } /* '' */
+.icon-bandcamp:before { content: '\f32b'; } /* '' */
+
+/* TOOLTIP */
+
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  width: 120px;
+  bottom: 120%;
+  left: 50%;
+  margin-left: -60px;
+  visibility: hidden;
+  background-color: rgb(71, 71, 71);
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+/* FONTS */
+
+@font-face {
+  font-family: Roboto;
+  src: url(../font/Roboto-Light.ttf);
 }

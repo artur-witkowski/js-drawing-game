@@ -9,39 +9,60 @@
   <body>
     <div id="app">
       <div id="canvasDiv">
-        <canvas width="1500" height="900" id="myCanvas"></canvas>
-        <div id="drawTools">
-          <div id="colors">
+        <canvas width="900" height="700" id="myCanvas"></canvas>
+      </div>
+      <div id="gameBottomHUDWrapper">
+        <div id="gameBottomHUD">
+          <div id="gameColors">
             <div class="colorsRow">
               <div class="color" style="background-color: black;"></div>
               <div class="color" style="background-color: rgb(24, 0, 245);"></div>
-              <div class="color" style="background-color: rgb(199, 0, 0);"></div>
+              <div class="color" style="background-color: rgb(80, 140, 230);"></div>
               <div class="color" style="background-color: rgb(13, 187, 91);"></div>
-              <div class="color" style="background-color: rgb(215, 18, 233);"></div>
+              <div class="color" style="background-color: rgb(132, 0, 150);"></div>
+              <div class="color" style="background-color: rgb(199, 0, 0);"></div>
+              <div class="color" style="background-color: rgb(224, 137, 22);"></div>
               <div class="color" style="background-color: rgb(238, 223, 14);"></div>
-              <div class="color" style="background-color: rgb(230, 108, 9);"></div>
-              <div class="color" style="background-color: rgb(17, 132, 240);"></div>
             </div>
             <div class="colorsRow">
-              <div class="color" style="background-color: rgb(163, 163, 163);"></div>
-              <div class="color" style="background-color: rgb(105, 98, 172);"></div>
-              <div class="color" style="background-color: rgb(108, 167, 41);"></div>
-              <div class="color" style="background-color: rgb(36, 48, 102);"></div>
-              <div class="color" style="background-color: rgb(80, 167, 40);"></div>
-              <div class="color" style="background-color: rgb(143, 134, 8);"></div>
-              <div class="color" style="background-color: rgb(92, 32, 104);"></div>
-              <div class="color" style="background-color: rgb(88, 11, 11);"></div>
+              <div class="color" style="background-color: rgb(255, 255, 255);"></div>
+              <div class="color" style="background-color: rgb(0, 20, 107);"></div>
+              <div class="color" style="background-color: rgb(149, 146, 179);"></div>
+              <div class="color" style="background-color: rgb(4, 116, 23);"></div>
+              <div class="color" style="background-color: rgb(210, 3, 218);"></div>
+              <div class="color" style="background-color: rgb(173, 15, 76);"></div>
+              <div class="color" style="background-color: rgb(131, 85, 0);"></div>
+              <div class="color" style="background-color: rgb(180, 177, 12);"></div>
             </div>
           </div>
-          <div id="tools">
-            <div>f</div>
-            <div>g</div>
-            <div>d</div>
-            <div>a</div>
+          <div id="gameTools">
+            <div class="toolsRow">
+              <div id="toolClear" class="tool tooltip"><span class="tooltiptext">Clear</span><i class="demo-icon icon-trash"></i></div>
+              <div id="toolRubber" class="tool tooltip"><span class="tooltiptext">Rubber</span><i class="demo-icon icon-bandcamp"></i></div>
+            </div>
+            <div class="toolsRow">
+              <div id="toolSize" class="tool tooltip"><span class="tooltiptext">Size</span><i class="demo-icon icon-circle"></i> <span id="sizeNumber">2</span></div>
+              <div id="toolFill" class="tool tooltip"><span class="tooltiptext">Fill</span><i class="demo-icon icon-bucket"></i></div>
+            </div>
           </div>
         </div>
       </div>
-      <div id="gameInfo">fff</div>
+      <div id="gameChatWrapper">
+        <div id="gameChat">
+          <div id="gameChatTitle">Chat</div>
+        </div>
+      </div>
+      <div id="gamePlayersWrapper">
+        <div id="gamePlayers">
+          <div id="gamePlayersTitle">Players</div>
+          <div id="gamePlayersList"></div>
+        </div>
+      </div>
+      <div id="gamePhraseWrapper">
+        <div id="gamePhrase">
+          <div id="gamePhraseText">_ _ _ _ _  _ _ _</div>
+        </div>
+      </div>
     </div>
 
     <script src="/js/socket.io.js"></script>

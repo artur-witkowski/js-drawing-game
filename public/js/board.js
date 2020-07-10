@@ -13,6 +13,14 @@ socket.on('gameInfo', data => {
   players = data.players;
   player = players.find(playerInfo => playerInfo._id === playerId);
   console.log(players);
+  let gamePlayersList = document.getElementById("gamePlayersList");
+  players.forEach((pInfo, pIndex) => {
+    gamePlayersList.innerHTML += `<div class="playerInfo">
+  <div class="playerInfoNick">${pIndex+1}. ${pInfo.name }</div>
+  <div class="playerInfoScore">${pInfo.points}</div>
+</div>`;
+  });
+  console.log(players);
 });
 
 let canvas,
@@ -37,6 +45,8 @@ document.addEventListener('click', function (event) {
 function init() {
   canvas = document.getElementById('myCanvas');
   ctx = canvas.getContext('2d');
+  ctx.fillStyle = "white";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
   // w = canvas.width;
   // h = canvas.height;
 
@@ -168,3 +178,34 @@ socket.on('newLine', data => {
   ctx.stroke();
   ctx.closePath();
 });
+
+let toolClear = document.getElementById("toolClear");
+toolClear.addEventListener('click', function (event) {
+  if (player === undefined || player._id !== drawingPlayerId) {
+    return;
+  }
+  ctx.fillStyle = "white";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}, false);
+
+let toolRubber = document.getElementById("toolRubber");
+toolRubber.addEventListener('click', function (event) {
+  if (player === undefined || player._id !== drawingPlayerId) {
+    return;
+  }
+  currSize = 14;
+  currColor = "white";
+}, false);
+
+let toolSize = document.getElementById("toolSize");
+toolSize.addEventListener('click', function (event) {
+  if (player === undefined || player._id !== drawingPlayerId) {
+    return;
+  }
+  if (currSize >= 10) {
+    currSize = 2;
+  } else {
+    currSize += 2;
+  }
+  document.getElementById("sizeNumber").innerHTML = currSize;
+}, false);
