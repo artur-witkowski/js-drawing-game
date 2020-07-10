@@ -52,7 +52,7 @@ mongoose
   .then(result => {
     require('./middleware/socket').init(server);
     require('./sockets/drawing')();
-    server.listen(3000);
+    server.listen(process.env.PORT || 3000);
   })
   .catch(err => {
     console.log(err);
