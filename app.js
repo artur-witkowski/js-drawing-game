@@ -11,7 +11,7 @@ const indexRoutes = require('./routes/index');
 const roomRoutes = require('./routes/room');
 
 const app = express();
-const server = require('https').Server(app);
+const server = require('http').Server(app);
 
 const storeSession = new mongoDBStore({
   uri: secret.mongodbURI,
