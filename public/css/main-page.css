@@ -65,11 +65,13 @@ body {
   text-shadow: 1px 1px #000000;
   font-size: 40px;
   border-radius: 5px;
+  box-shadow: 3px 3px black;
+  text-shadow: 2px 2px #000000;
 }
 
 #new-room > form > input:hover {
   background-image: linear-gradient(#7ccff8, #59d6c2);
-  text-shadow: 2px 2px #000000;
+  box-shadow: 5px 5px black;
 }
 
 .active {
