@@ -29,20 +29,17 @@ body {
   justify-content: normal;
 }
 
-.mainNavbarTile {
+#mainNavbar > a {
   flex: 0 0 auto;
   padding: 12px 20px 0 20px;
   font-size: 20px;
   font-family: Roboto;
   cursor: pointer;
-}
-
-.mainNavbarTile > a {
   text-decoration: none;
   color: black;
 }
 
-.mainNavbarTile:hover {
+#mainNavbar > a:hover {
   background-color: #6ab1d4;
 }
 
