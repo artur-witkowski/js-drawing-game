@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const mongoDBStore = require('connect-mongodb-session')(session);
 
-const secret = require('./secret');
+//const secret = require('./secret');
 const indexRoutes = require('./routes/index');
 const roomRoutes = require('./routes/room');
 
@@ -14,7 +14,7 @@ const app = express();
 const server = require('http').Server(app);
 
 const storeSession = new mongoDBStore({
-  uri: secret.mongodbURI,
+  uri: process.env.MONGODB_URI,
   collection: 'sessions'
 });
 
@@ -45,7 +45,7 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-  .connect(secret.mongodbURI, {
+  .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

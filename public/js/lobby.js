@@ -1,4 +1,4 @@
-const socket = io('http://localhost:3000');
+const socket = io();
 
 socket.emit('joinRoom', { roomId: roomId });
 
@@ -9,10 +9,10 @@ socket.on('playersChanges', data => {
 socket.on('newGameState', data => {
     console.log(data);
     if (data.gameState === 'game') {
-        window.location = `http://localhost:3000/room/${roomId}/`
+        window.location = `/room/${roomId}/`
     } else if (data.gameState === 'lobby') {
-        window.location = `http://localhost:3000/room-lobby/${roomId}/`
+        window.location = `/room-lobby/${roomId}/`
     } else {
-        window.location = `http://localhost:3000/`
+        window.location = `/`
     }
 })
