@@ -1,5 +1,30 @@
-<h1>JS Drawing Game</h1>
-
-<form action="/create-room" method="post">
-    <input type="submit" value="Create new room">
-</form>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/main-page.css" />
+    <title>JS Drawing Game</title>
+  </head>
+  <body>
+    <div id="mainNavbar">
+        <div class="mainNavbarTile">
+            <a href="/">Home</a>
+        </div>
+        <div class="mainNavbarTile">
+            <a href="/about">About</a>
+        </div>
+        <div class="mainNavbarTile">
+            <a href="/author">Author</a>
+        </div>
+    </div>
+    <div id="mainTitle">
+      JS Drawing Game
+    </div>
+    <div id="new-room">
+      <form action="/create-room" method="post">
+        <input type="submit" value="Create new room" />
+      </form>
+    </div>
+  </body>
+</html>
