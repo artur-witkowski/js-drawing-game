@@ -28,9 +28,9 @@ git clone https://github.com/artur-witkowski/js-drawing-game
 ```sh
 npm install
 ```
-3. Enter your MongoDB URI in `secret.js`
+3. Set your "MONGODB_URI" environment variable
 ```JS
-exports.mongodbURI = "here"
+"MONGODB_URI": "mongodb+srv://LOGIN:PASSWORD@cluster0-dkpfj.mongodb.net/DBNAME?retryWrites=true&w=majority"
 ```
 
 ## Usage 
