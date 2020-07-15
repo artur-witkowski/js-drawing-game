@@ -135,6 +135,22 @@ canvas {
   align-self: flex-end;
 }
 
+#gamePlayersSettings {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  line-height: 50px;
+  font-size: 20px;
+  height: 50px;
+  width: 350px;
+  border-top: 1px solid black;
+  cursor: pointer;
+}
+
+#backLobby {
+  padding-left: 10px;
+}
+
 /* CHAT */
 
 #gameChatWrapper {

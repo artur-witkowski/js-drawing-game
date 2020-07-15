@@ -70,7 +70,7 @@ exports.getRoomLobby = (req, res, next) => {
             roomUrl: newRoomUrl,
             player: newPlayerInfo,
             players: newRoom.players,
-            path: '/room-lobby'
+            path: '/room-lobby',
           });
         });
       } else {
@@ -80,7 +80,7 @@ exports.getRoomLobby = (req, res, next) => {
           roomUrl: newRoomUrl,
           player: playerInfo,
           players: room.players,
-          path: '/room-lobby'
+          path: '/room-lobby',
         });
       }
     })
@@ -203,7 +203,7 @@ exports.getRoom = (req, res, next) => {
             player => player._id.toString() === req.session.playerId
           );
           const io = require('../middleware/socket').getIO();
-          io.to(roomId).emit('gameInfo', {
+          io.to(roomId).emit('playersChanges', {
             players: newRoom.players,
           });
           return res.render('game/room', {
@@ -216,6 +216,38 @@ exports.getRoom = (req, res, next) => {
         return res.render('game/room', {
           roomId: roomId,
           playerId: playerId,
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+exports.postBackLobby = (req, res, next) => {
+  const playerId = req.session.playerId;
+  const roomId = req.params.roomId;
+
+  if (playerId === undefined || roomId === undefined) {
+    return res.redirect('/');
+  }
+
+  Room.findOne({ roomId: roomId })
+    .then(room => {
+      if (room === null) {
+        return res.redirect('/');
+      }
+
+      const playerInfo = room.players.find(
+        player => player._id.toString() === req.session.playerId
+      );
+      if (!playerInfo || playerInfo.role !== 'admin') {
+        return res.redirect('/');
+      } else {
+        room.gameState = 'lobby';
+        return room.save().then(result => {
+          const io = require('../middleware/socket').getIO();
+          io.to(roomId).emit('newGameState', { gameState: 'lobby' });
         });
       }
     })

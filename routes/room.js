@@ -20,4 +20,7 @@ router.post('/room-lobby/:roomId/start', roomController.postStartGame);
 // GET /room/:roomId
 router.get('/room/:roomId', roomController.getRoom);
 
+// POST /room/:roomId/backLobby
+router.post('/room/:roomId/backLobby', roomController.postBackLobby);
+
 module.exports = router;

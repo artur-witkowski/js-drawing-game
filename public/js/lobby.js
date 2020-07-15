@@ -7,7 +7,6 @@ socket.on('playersChanges', data => {
 }) 
 
 socket.on('newGameState', data => {
-    console.log(data);
     if (data.gameState === 'game') {
         window.location = `/room/${roomId}/`
     } else if (data.gameState === 'lobby') {

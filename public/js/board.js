@@ -1,9 +1,23 @@
 const socket = io();
 
 socket.emit('joinRoom', { roomId: roomId });
-
 let gameCategory, roundTime, roundLimit, drawingPlayerId, guessPhrase, players = [], player;
+let canvas, ctx,
+  flag = false,
+  prevX = 0,
+  currX = 0,
+  prevY = 0,
+  currY = 0,
+  currColor = 'black',
+  currSize = 2;
+// dot_flag = false,
+// w,
+// h;
 
+/*********************************
+ * Init game variables from server
+ *********************************
+ */
 socket.on('gameInfo', data => {
   if (data.gameCategory) gameCategory = data.gameCategory;
   if (data.roundTime) roundTime = data.roundTime;
@@ -15,21 +29,39 @@ socket.on('gameInfo', data => {
     player = players.find(playerInfo => playerInfo._id === playerId);
   }
   
-  let gamePlayersList = document.getElementById("gamePlayersList");
-  let newPlayers = "";
-  players.forEach((pInfo, pIndex) => {
-     newPlayers += `<div class="playerInfo">
-  <div class="playerInfoNick">${pIndex+1}. ${pInfo.name }</div>
-  <div class="playerInfoScore">${pInfo.points}</div>
-</div>`;
-  });
-
-  gamePlayersList.innerHTML = newPlayers;
+  if (data.players) {
+    updatePlayers(data.players);
+  }
 });
 
 socket.on('playersChanges', data => {
-  if (players) {
-    let gamePlayersList = document.getElementById("gamePlayersList");
+  if (data.players) {
+    updatePlayers(data.players);
+  }
+});
+
+socket.on('newGameState', data => {
+  if (data.gameState === 'game') {
+      window.location = `/room/${roomId}/`
+  } else if (data.gameState === 'lobby') {
+      window.location = `/room-lobby/${roomId}/`
+  } else {
+      window.location = `/`
+  }
+})
+
+socket.on('newLine', data => {
+  ctx.beginPath();
+  ctx.moveTo(data.xStart, data.yStart);
+  ctx.lineTo(data.xEnd, data.yEnd);
+  ctx.strokeStyle = data.color;
+  ctx.lineWidth = data.size;
+  ctx.stroke();
+  ctx.closePath();
+});
+
+function updatePlayers(players) {
+  let gamePlayersList = document.getElementById("gamePlayersList");
     let newPlayers = "";
     players.forEach((pInfo, pIndex) => {
        newPlayers += `<div class="playerInfo">
@@ -39,27 +71,12 @@ socket.on('playersChanges', data => {
     });
   
     gamePlayersList.innerHTML = newPlayers;
-  }
-});
+}
 
-let canvas,
-  ctx,
-  flag = false,
-  prevX = 0,
-  currX = 0,
-  prevY = 0,
-  currY = 0;
-// dot_flag = false,
-// w,
-// h;
-
-let currColor = 'black',
-  currSize = 2;
-
-document.addEventListener('click', function (event) {
-  if (!event.target.matches('.color')) return;
-  currColor = event.target.style.backgroundColor;
-});
+/*****************
+ * Handle drawing
+ *****************
+ */
 
 function init() {
   canvas = document.getElementById('myCanvas');
@@ -188,14 +205,15 @@ function findxy(res, e) {
 
 init();
 color({ id: 'green' });
-socket.on('newLine', data => {
-  ctx.beginPath();
-  ctx.moveTo(data.xStart, data.yStart);
-  ctx.lineTo(data.xEnd, data.yEnd);
-  ctx.strokeStyle = data.color;
-  ctx.lineWidth = data.size;
-  ctx.stroke();
-  ctx.closePath();
+
+/*
+ *************************
+ * Settings, tools, events
+ *************************
+*/
+document.addEventListener('click', function (event) {
+  if (!event.target.matches('.color')) return;
+  currColor = event.target.style.backgroundColor;
 });
 
 let toolClear = document.getElementById("toolClear");
@@ -227,4 +245,11 @@ toolSize.addEventListener('click', function (event) {
     currSize += 2;
   }
   document.getElementById("sizeNumber").innerHTML = currSize;
+}, false);
+
+let resetLobby = document.getElementById("backLobby");
+resetLobby.addEventListener('click', function (event) {
+  fetch(`/room/${roomId}/backLobby`, {
+    method: 'POST'
+  })
 }, false);
