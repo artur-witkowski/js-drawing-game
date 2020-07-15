@@ -28,7 +28,11 @@ socket.on('gameInfo', data => {
     players = data.players;
     player = players.find(playerInfo => playerInfo._id === playerId);
   }
-  
+  if (data.chat) {
+    console.log('???')
+    updateChat(data.chat);
+  }
+
   if (data.players) {
     updatePlayers(data.players);
   }
@@ -71,6 +75,18 @@ function updatePlayers(players) {
     });
   
     gamePlayersList.innerHTML = newPlayers;
+}
+
+function updateChat(chat) {
+  let gameChatMessages = document.getElementById("gameChatMessages");
+  let newMessages = "";
+  chat.forEach((chatMess) => {
+    newMessages += `<div class="chatMessBlock">
+  <span class="chatName">${chatMess.name}: </span>
+  <span class="chatMess">${chatMess.message}</span>
+</div>`;
+  });
+  gameChatMessages.innerHTML = newMessages;
 }
 
 /*****************
@@ -253,3 +269,40 @@ resetLobby.addEventListener('click', function (event) {
     method: 'POST'
   })
 }, false);
+
+/**********************
+ * CHAT handling
+ *********************
+ */
+
+document.getElementById('gameChatInput').onkeypress = function(e){
+  if (!e) e = window.event;
+  var keyCode = e.keyCode || e.which;
+  if (keyCode == '13'){
+    let newMess = {};
+    newMess.playerId = player._id;
+    newMess.message = document.getElementById("gameChatInput").value;
+    newMess.roomId = roomId;
+    
+    let gameChatMessages = document.getElementById("gameChatMessages");
+    let addMessage = `<div class="chatMessBlock">
+  <span class="chatName">${player.name}: </span>
+  <span class="chatMess">${newMess.message}</span>
+</div>`;
+    gameChatMessages.innerHTML += addMessage;
+
+    socket.emit('newMess', newMess);
+    document.getElementById("gameChatInput").value = "";
+    return false;
+  }
+}
+
+socket.on('newMess', mess => {
+  console.log(mess);
+  let gameChatMessages = document.getElementById("gameChatMessages");
+  let addMessage = `<div class="chatMessBlock">
+  <span class="chatName">${mess.name}: </span>
+  <span class="chatMess">${mess.message}</span>
+</div>`;
+  gameChatMessages.innerHTML += addMessage;
+});

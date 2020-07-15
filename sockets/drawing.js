@@ -10,6 +10,7 @@ module.exports = () => {
       );
       Room.findOne({ roomId: data.roomId })
         .then(room => {
+          if (!room) return;
           socket.emit('gameInfo', room);
         })
         .catch(err => {
@@ -21,6 +22,37 @@ module.exports = () => {
     socket.on('newLine', data => {
       console.log(`${data.xStart}, ${data.yStart} - ${data.color}`);
       socket.broadcast.to(data.roomId).emit('newLine', data);
+    });
+
+    socket.on('newMess', data => {
+      
+      Room.findOne({ roomId: data.roomId })
+        .then(room => {
+          if (!room) {
+            return;
+          }
+
+          const playerInfo = room.players.find(
+            player => player._id.toString() === data.playerId
+          );
+          if (playerInfo) {
+            let newMessSave = {
+              name: playerInfo.name,
+              playerId: playerInfo._id,
+              message: data.message,
+            };
+            room.chat.push(newMessSave);
+            socket.broadcast.to(data.roomId).emit('newMess', newMessSave);
+            return room.save().then(result => {
+              console.log(`${data.playerId}: ${data.message}`);
+            });
+          } else {
+            return false;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     });
   });
 

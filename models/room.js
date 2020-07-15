@@ -46,6 +46,22 @@ const roomSchema = new Schema({
       }
     ]
   },
+  chat: [
+    {
+      name: {
+        type: String,
+        required: true
+      },
+      playerId: {
+        type: String,
+        required: true
+      },
+      message: {
+        type: String,
+        required: true
+      }
+    }
+  ]
 });
 
 module.exports = mongoose.model('Room', roomSchema);

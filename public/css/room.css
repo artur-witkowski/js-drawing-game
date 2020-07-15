@@ -166,6 +166,8 @@ canvas {
   height: 800px;
   border: 1px solid black;
   border-right: 0;
+  display: flex;
+  flex-flow: column;
 }
 
 #gameChatTitle {
@@ -175,6 +177,37 @@ canvas {
   text-align: center;
   border-bottom: 1px solid black;
   padding: 10px 0;
+  flex: 0 1 50px;
+}
+
+#gameChatMessages {
+  flex: 0 1 720px;
+  max-height: 719px;
+  overflow-y:auto;
+}
+
+.chatMessBlock {
+  padding: 2px 0 2px 5px;
+}
+
+.chatName {
+  font-weight: bold;
+}
+
+#gameChatInputWrapper {
+  height: 30px;
+  width: 350px;
+  cursor: pointer;
+  flex: 0 1 auto;
+}
+
+#gameChatInput {
+  width: 345px;
+  height: 30px;
+  padding: 0 0 0 5px;
+  font-size: 18px;
+  border: none;
+  border-top: 1px solid black;
 }
 
 /* PHRASE */
