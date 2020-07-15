@@ -134,6 +134,8 @@ exports.postStartGame = (req, res, next) => {
   const roomId = req.params.roomId;
   const playerId = req.session.playerId;
   const gameUrl = `${req.protocol}://${req.get('host')}/room/${roomId}`;
+  const gameCategory = req.body.gameCategory;
+  const gameTimeLimit = req.body.gameTimeLimit;
 
   Room.findOne({ roomId: roomId })
     .then(room => {
@@ -153,6 +155,8 @@ exports.postStartGame = (req, res, next) => {
       ) {
         room.gameState = 'game';
         room.drawingPlayerId = room.players[0]._id;
+        room.gameCategory = gameCategory;
+        room.roundLimit = gameTimeLimit;
         return room
           .save()
           .then(result => {

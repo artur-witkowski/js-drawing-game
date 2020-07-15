@@ -43,7 +43,7 @@
         </p>
         <p>
           Time: 
-          <input class="settingsInput" type="number" min="15" max="120" step="1" value="60"> s
+          <input class="settingsInput" id="gameTimeLimit" type="number" min="15" max="120" step="1" value="60"> s
         </p>
       </div>
       <div id="playersPanel">
@@ -60,9 +60,7 @@
       </div>
     </div>
     <% if (player.role === 'admin') { %>
-      <form action="<%= roomUrl %>/start" method="post">
-        <input id="startGame" type="submit" value="Start" />
-      </form>
+      <input id="startGame" type="submit" value="Start" />
     <% } else { %>
       <h2 id="waitingToStart">Waiting to start...</h2>
     <% } %>

@@ -10,14 +10,7 @@ module.exports = () => {
       );
       Room.findOne({ roomId: data.roomId })
         .then(room => {
-          socket.emit('gameInfo', {
-            gameCategory: room.gameCategory,
-            roundTime: room.roundTime,
-            roundLimit: room.roundLimit,
-            drawingPlayerId: room.drawingPlayerId,
-            guessPhrase: room.guessPhrase,
-            players: room.players,
-          });
+          socket.emit('gameInfo', room);
         })
         .catch(err => {
           console.log(err);
