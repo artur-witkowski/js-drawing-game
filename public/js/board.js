@@ -87,6 +87,7 @@ function updateChat(chat) {
 </div>`;
   });
   gameChatMessages.innerHTML = newMessages;
+  gameChatMessages.scrollTop = gameChatMessages.scrollHeight;
 }
 
 /*****************
@@ -271,7 +272,7 @@ resetLobby.addEventListener('click', function (event) {
 }, false);
 
 /**********************
- * CHAT handling
+ * CHAT HANDLE
  *********************
  */
 
@@ -283,14 +284,14 @@ document.getElementById('gameChatInput').onkeypress = function(e){
     newMess.playerId = player._id;
     newMess.message = document.getElementById("gameChatInput").value;
     newMess.roomId = roomId;
-    
+    if(newMess.message.trim().length < 1) return;
     let gameChatMessages = document.getElementById("gameChatMessages");
     let addMessage = `<div class="chatMessBlock">
   <span class="chatName">${player.name}: </span>
   <span class="chatMess">${newMess.message}</span>
 </div>`;
     gameChatMessages.innerHTML += addMessage;
-
+    gameChatMessages.scrollTop = gameChatMessages.scrollHeight;
     socket.emit('newMess', newMess);
     document.getElementById("gameChatInput").value = "";
     return false;
@@ -305,4 +306,5 @@ socket.on('newMess', mess => {
   <span class="chatMess">${mess.message}</span>
 </div>`;
   gameChatMessages.innerHTML += addMessage;
+  gameChatMessages.scrollTop = gameChatMessages.scrollHeight;
 });

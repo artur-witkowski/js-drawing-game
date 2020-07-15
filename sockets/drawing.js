@@ -25,10 +25,9 @@ module.exports = () => {
     });
 
     socket.on('newMess', data => {
-      
       Room.findOne({ roomId: data.roomId })
         .then(room => {
-          if (!room) {
+          if (!room || data.message.trim().length < 1) {
             return;
           }
 
@@ -43,6 +42,7 @@ module.exports = () => {
             };
             room.chat.push(newMessSave);
             socket.broadcast.to(data.roomId).emit('newMess', newMessSave);
+
             return room.save().then(result => {
               console.log(`${data.playerId}: ${data.message}`);
             });
