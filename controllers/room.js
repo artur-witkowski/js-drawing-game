@@ -70,6 +70,7 @@ exports.getRoomLobby = (req, res, next) => {
             roomUrl: newRoomUrl,
             player: newPlayerInfo,
             players: newRoom.players,
+            path: '/room-lobby'
           });
         });
       } else {
@@ -79,6 +80,7 @@ exports.getRoomLobby = (req, res, next) => {
           roomUrl: newRoomUrl,
           player: playerInfo,
           players: room.players,
+          path: '/room-lobby'
         });
       }
     })

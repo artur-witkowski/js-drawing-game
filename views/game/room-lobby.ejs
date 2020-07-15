@@ -4,53 +4,69 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Your room</title>
+    <link rel="icon" type="image/png" href="/img/logo.png"/>
+    <link rel="stylesheet" href="/css/main-page.css" />
+    <link rel="stylesheet" href="/css/room-lobby.css" />
   </head>
   <body>
-    <h1>Your room</h1>
-    Share with friends:
-    <input type="text" size="65" readonly value="<%= roomUrl %>" />
-    <hr />
-    <form action="<%= roomUrl %>/changeName" method="post">
-      <label for="playerName">Your name:</label>
-      <input
-        type="text"
-        id="playerName"
-        name="playerName"
-        size="65"
-        value="<%= player.name %>"
-        maxlength="18"
-      />
-      <input type="submit" value="Update" />
-    </form>
-    <hr />
-    <div>
-      <h2>Game settings</h2>
-      <p>Category:</p>
-      <p>Time:</p>
+    <%- include('../includes/navbar.ejs') %>
+    <div id="topPanel">
+      <h1>Your room</h1>
+      <span class="topText">Share with friends: </span>
+      <input class="topInput" onClick="this.setSelectionRange(0, this.value.length)" type="text" size="65" readonly value="<%= roomUrl %>" />
+      <hr />
+      <form id="topForm" action="<%= roomUrl %>/changeName" method="post">
+        <label for="playerName" class="topText">Your name: </label>
+        <input
+          class="topInput"
+          type="text"
+          id="playerName"
+          name="playerName"
+          size="25"
+          value="<%= player.name %>"
+          maxlength="18"
+        />
+        <input id="topUpdate" type="submit" value="Update" />
+      </form>
     </div>
-    <hr />
-    <div>
-      <h2>Players</h2>
-      <ol>
-        <% players.forEach(playerInfo => { %>
-          <% if (playerInfo._id.toString() === player._id.toString()) { %>
-            <li><b><%= playerInfo.name %></b></li>
-          <% } else { %>
-            <li><%= playerInfo.name %></li>
-          <% } %>
-        <% }); %>
-      </ol>
+    <div id="bottomPanel">
+      <div id="settingsPanel">
+        <h2>Game settings</h2>
+        <p>
+          Category:
+          <select class="settingsInput" id="gameCategory" name="gameCategory">
+            <option value="random">Random</option>
+            <option value="food">Food</option>
+            <option value="places">Places</option>
+            <option value="movies">Movies</option>
+          </select>
+        </p>
+        <p>
+          Time: 
+          <input class="settingsInput" type="number" min="15" max="120" step="1" value="60"> s
+        </p>
+      </div>
+      <div id="playersPanel">
+        <h2>Players</h2>
+        <ol>
+          <% players.forEach(playerInfo => { %>
+            <% if (playerInfo._id.toString() === player._id.toString()) { %>
+              <li><b><%= playerInfo.name %></b></li>
+            <% } else { %>
+              <li><%= playerInfo.name %></li>
+            <% } %>
+          <% }); %>
+        </ol>
+      </div>
     </div>
-    <hr />
     <% if (player.role === 'admin') { %>
       <form action="<%= roomUrl %>/start" method="post">
-        <input type="submit" value="Start" />
+        <input id="startGame" type="submit" value="Start" />
       </form>
     <% } else { %>
-      <h2>Waiting to start...</h2>
+      <h2 id="waitingToStart">Waiting to start...</h2>
     <% } %>
-    <hr />
-    <a href="/">Back</a>
+
     <script src="/js/socket.io.js"></script>
     <script>
       const roomId = '<%= roomId %>';

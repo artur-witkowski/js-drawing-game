@@ -11,8 +11,9 @@ body {
 
 body {
   background-image: url('/img/background-sky.png');
+  background-size: auto auto;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-position: left top;
   text-align: center;
 }
 
