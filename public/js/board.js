@@ -67,11 +67,16 @@ socket.on('newLine', data => {
 function updatePlayers(players) {
   let gamePlayersList = document.getElementById("gamePlayersList");
     let newPlayers = "";
+    let crown = "";
     players.forEach((pInfo, pIndex) => {
-       newPlayers += `<div class="playerInfo">
-    <div class="playerInfoNick">${pIndex+1}. ${pInfo.name }</div>
-    <div class="playerInfoScore">${pInfo.points}</div>
-  </div>`;
+      if (pInfo.role === 'admin') {
+        crown = `<img src="/img/crown.svg" style="width: 20px; height: 20px;" />`;
+      }
+      newPlayers += `<div class="playerInfo">
+  <div class="playerInfoNick">${pIndex+1}. ${pInfo.name} ${crown}</div>
+  <div class="playerInfoScore">${pInfo.points}</div>
+</div>`;
+    crown = "";
     });
   
     gamePlayersList.innerHTML = newPlayers;
